@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Редактировать блок</title>
+</head>
+<body>
+    <header>
+        <h1>Редактировать блок</h1>
+    </header>
+    <div class="container">
+        <form id="blockForm" action="/blocks/edit" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="old_title" value="{{ block.title }}">
+
+            <!-- Поле для заголовка -->
+            <label for="title">Заголовок:</label><br>
+            <input type="text" id="title" name="title" value="{{ block.title }}" required><br><br>
+
+            <!-- Поле для содержания -->
+            <label for="content">Содержание:</label><br>
+            <textarea id="content" name="content" rows="10" required>{{ block.content }}</textarea><br><br>
+
+            <!-- Предпросмотр фотографий -->
+            <h3>Предпросмотр фотографий</h3>
+            <div class="preview-slider" id="imageSlider">
+                {% if block.images %}
+                    {% for image in block.images %}
+                        <img src="/{{ image }}" alt="Изображение" class="{% if loop.index0 == 0 %}active{% else %}inactive{% endif %}">
+                    {% endfor %}
+                {% else %}
+                    <p>Добавьте изображения для предпросмотра</p>
+                {% endif %}
+            </div>
+            <div class="slider-counter" id="imageCounter">0 / {{ block.images|length }}</div>
+            <div class="slider-controls" style="{% if block.images|length > 0 %}display: flex;{% else %}display: none;{% endif %}" id="imageControls">
+                <button type="button" class="nav-button" onclick="prevSlide('imageSlider', 'image')">Назад</button>
+                <button type="button" class="delete-button" onclick="deleteCurrentFile('image')">Удалить</button>
+                <button type="button" class="nav-button" onclick="nextSlide('imageSlider', 'image')">Вперед</button>
+            </div>
+
+
+            <!-- Загрузка фотографий -->
+            <div class="upload-container">
+                <input type="file" id="imageInput" accept="image/*" multiple onchange="updateFileName('image')"><br>
+                <button type="button" class="add-button" onclick="addFile('image')">Добавить фото</button>
+                <button type="button" class="custom-button" onclick="document.getElementById('imageInput').click()">Выбрать фото</button>
+                <span class="file-name" id="imageFileName">Не выбран файл</span>
+            </div>
+
+            <!-- Предпросмотр видео -->
+            <h3>Предпросмотр видео</h3>
+            <div class="preview-slider" id="videoSlider">
+                {% if block.videos %}
+                    {% for video in block.videos %}
+                        <video src="/{{ video }}" class="{% if loop.index0 == 0 %}active{% else %}inactive{% endif %}"></video>
+                    {% endfor %}
+                {% else %}
+                    <p>Добавьте видео для предпросмотра</p>
+                {% endif %}
+            </div>
+            <div class="slider-counter" id="videoCounter">0 / {{ block.videos|length }}</div>
+            <div class="slider-controls" style="{% if block.videos|length > 0 %}display: flex;{% else %}display: none;{% endif %}" id="videoControls">
+                <button type="button" class="nav-button" onclick="prevSlide('videoSlider', 'video')">Назад</button>
+                <button type="button" class="delete-button" onclick="deleteCurrentFile('video')">Удалить</button>
+                <button type="button" class="nav-button" onclick="nextSlide('videoSlider', 'video')">Вперед</button>
+            </div>
+
+
+            <!-- Загрузка видео -->
+            <div class="upload-container">
+                <input type="file" id="videoInput" accept="video/*" multiple onchange="updateFileName('video')"><br>
+                <button type="button" class="add-button" onclick="addFile('video')">Добавить видео</button>
+                <button type="button" class="custom-button" onclick="document.getElementById('videoInput').click()">Выбрать видео</button>
+                <span class="file-name" id="videoFileName">Не выбран файл</span>
+            </div>
+
+            <!-- Кнопка отправки блока -->
+            <button type="button" class="save-block-button" onclick="submitForm()">Сохранить изменения</button>
+        </form>
+    </div>
+
+    <script>
+        // Используем тот же JavaScript, что и в форме добавления
+        const files = { image: [], video: [] };
+        const indices = { image: 0, video: 0 };
+
+        // Функция для удаления текущего изображения или видео
+        function deleteCurrentFile(type) {
+            if (files[type].length === 0) {
+                alert('Нет файлов для удаления!');
+                return;
+            }
+
+            // Удаляем текущий файл из массива
+            const currentIndex = indices[type];
+            const removedFile = files[type].splice(currentIndex, 1)[0];
+
+            // Освобождаем URL для удаленного файла
+            URL.revokeObjectURL(removedFile.url);
+
+            // Обновляем индекс и проверяем, если массив пуст
+            if (files[type].length === 0) {
+                indices[type] = 0;
+                document.getElementById(`${type}Slider`).innerHTML =
+                    `<p>Добавьте ${type === 'image' ? 'изображения' : 'видео'} для предпросмотра</p>`;
+                document.getElementById(`${type}Counter`).textContent = '0 / 0';
+                document.getElementById(`${type}Controls`).style.display = 'none';
+            } else {
+                indices[type] = currentIndex % files[type].length; // Обновляем индекс
+                renderSlider(type); // Перерисовываем слайдер
+            }
+        }
+
+        // Функция для добавления фото или видео
+        function addFile(type) {
+            const input = document.getElementById(`${type}Input`);
+            const newFiles = Array.from(input.files);
+
+            if (newFiles.length === 0) {
+                alert('Пожалуйста, выберите файлы!');
+                return;
+            }
+
+            newFiles.forEach((file) => {
+                const fileURL = URL.createObjectURL(file);
+                files[type].push({ file, url: fileURL });
+            });
+
+            renderSlider(type);
+            input.value = ''; // Сброс поля загрузки
+            document.getElementById(`${type}Controls`).style.display = 'flex';
+
+            document.getElementById(`${type}FileName`).textContent = 'Не выбран файл';
+        }
+
+        // Функция для рендеринга слайдера (изображений или видео)
+        function renderSlider(type) {
+            const slider = document.getElementById(`${type}Slider`);
+            slider.innerHTML = '';
+            files[type].forEach((file, index) => {
+                const element =
+                    type === 'image'
+                        ? document.createElement('img')
+                        : document.createElement('video');
+
+                element.src = file.url;
+                element.classList.add(index === indices[type] ? 'active' : 'inactive');
+                if (type === 'video') {
+                    element.controls = true;
+                }
+
+                slider.appendChild(element);
+            });
+
+            updateCounter(type);
+        }
+
+        // Функция для обновления счетчика на слайдере (изображений или видео)
+        function updateCounter(type) {
+            const counter = document.getElementById(`${type}Counter`);
+            counter.textContent = `${indices[type] + 1} / ${files[type].length}`;
+        }
+
+        function prevSlide(sliderId, type) {
+            const total = files[type].length;
+            indices[type] = (indices[type] - 1 + total) % total;
+            renderSlider(type);
+        }
+
+        function nextSlide(sliderId, type) {
+            const total = files[type].length;
+            indices[type] = (indices[type] + 1) % total;
+            renderSlider(type);
+        }
+
+        async function submitForm() {
+            const formData = new FormData(document.getElementById('blockForm'));
+
+            // Добавляем изображения и видео в formData
+            files.image.forEach((item, index) => {
+                formData.append(`images`, item.file);
+            });
+            files.video.forEach((item, index) => {
+                formData.append(`videos`, item.file);
+            });
+
+            try {
+                const response = await fetch('/blocks/new', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error('Ошибка при сохранении блока');
+                }
+
+                alert('Блок успешно сохранен!');
+                window.location.reload();
+            } catch (error) {
+                console.error(error);
+                alert('Произошла ошибка при сохранении блока.');
+            }
+        }
+
+        function updateFileName(type) {
+            const input = document.getElementById(`${type}Input`);
+            const fileName = document.getElementById(`${type}FileName`);
+
+            // Если выбраны файлы, показываем их имена
+            if (input.files.length > 0) {
+                fileName.textContent = `${input.files.length} файлов выбрано: ` + Array.from(input.files).map(file => file.name).join(', ');
+            } else {
+                fileName.textContent = 'Не выбран файл';
+            }
+        }
+    </script>
+</body>
+</html>

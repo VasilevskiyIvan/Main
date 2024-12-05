@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Block</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+    <h1>Edit Information Blocks</h1>
+
+    <div class="form-container">
+        <h2>Select Block to Edit</h2>
+        <form id="block-edit-form">
+            <label for="block_select">Choose Block:</label>
+            <select id="block_select" name="block_select" required>
+                <option value="">Select Block</option>
+                <!-- Options will be populated dynamically -->
+            </select>
+        </form>
+    </div>
+
+    <div class="edit-container">
+        <div class="language-section">
+            <h2>Russian</h2>
+            <label for="title_ru">Block Title (RU):</label>
+            <input type="text" id="title_ru" name="title_ru" required>
+
+            <label for="full_description_ru">Full Description (RU):</label>
+            <textarea id="full_description_ru" name="full_description_ru" rows="4" required></textarea>
+        </div>
+
+        <div class="language-section">
+            <h2>English</h2>
+            <label for="title_en">Block Title (EN):</label>
+            <input type="text" id="title_en" name="title_en">
+
+            <label for="full_description_en">Full Description (EN):</label>
+            <textarea id="full_description_en" name="full_description_en" rows="4"></textarea>
+        </div>
+
+        <div class="language-section">
+            <h2>Arabic</h2>
+            <label for="title_ar">Block Title (AR):</label>
+            <input type="text" id="title_ar" name="title_ar">
+
+            <label for="full_description_ar">Full Description (AR):</label>
+            <textarea id="full_description_ar" name="full_description_ar" rows="4"></textarea>
+        </div>
+    </div>
+
+    <!-- Добавляем блок для списка -->
+    <div id="blocks-list">
+        <!-- Блоки будут отображаться здесь -->
+    </div>
+
+    <button id="save_button" type="button">Save</button>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
