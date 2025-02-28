@@ -274,8 +274,8 @@
                             data-content-en="{{ block.content.en }}"
                             data-content-zh="{{ block.content.zh }}"
                             data-content-ar="{{ block.content.ar }}"
-                            data-images="{{ ', '.join(block.images) if block.images else '' }}"
-                            data-videos="{{ ', '.join(block.videos) if block.videos else '' }}">
+                            data-images="{{ ', '.join(block.media.images) if block.media.images else '' }}"
+                            data-videos="{{ ', '.join(block.media.videos) if block.media.videos else '' }}">
                         {{ block.title.ru or block.title.en or block.title.zh or block.title.ar }} -
                         {{ block.content.ru or block.content.en or block.content.zh or block.content.ar }}
                     </option>
