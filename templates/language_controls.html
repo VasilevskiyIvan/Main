@@ -1,0 +1,35 @@
+<div class="language-indicators">
+    <div id="indicator_ru" class="language-indicator">ru</div>
+    <div id="indicator_en" class="language-indicator">en</div>
+    <div id="indicator_zh" class="language-indicator">zh</div>
+    <div id="indicator_ar" class="language-indicator">ar</div>
+</div>
+
+<form id="mainForm" method="post" enctype="multipart/form-data">
+    <h2>Добавить контент для разных языков</h2>
+
+    <div class="language-selection">
+        <label for="languageSelect">Выберите язык:</label>
+        <select id="languageSelect" onchange="showLanguageBlock()">
+            <option value="">Выберите язык</option>
+            <option value="ru">Русский</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="ar">العربية</option>
+        </select>
+        <button type="button" class="add-language-button" onclick="addLanguage()">Добавить информацию на другом языке</button>
+    </div>
+
+    <div id="languageBlocks">
+        <!-- Блоки для каждого языка -->
+        {% for lang in ['ru', 'en', 'zh', 'ar'] %}
+        <div class="language-block" id="block_{{ lang }}">
+            <h3>{{ lang|language_label }}</h3>
+            <label for="title_{{ lang }}">{{ lang|title_label }}:</label>
+            <input type="text" id="title_{{ lang }}" name="title_{{ lang }}" onchange="updateLanguageIndicator('{{ lang }}')">
+            <label for="content_{{ lang }}">{{ lang|content_label }}:</label>
+            <textarea id="content_{{ lang }}" name="content_{{ lang }}" rows="5" onchange="updateLanguageIndicator('{{ lang }}')"></textarea>
+        </div>
+        {% endfor %}
+    </div>
+</form>

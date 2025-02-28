@@ -1,0 +1,22 @@
+<!-- media_controls.html -->
+{% for media_type in ['image', 'video'] %}
+<div class="media-section">
+    <h3>Предпросмотр {{ 'фотографий' if media_type == 'image' else 'видео' }}</h3>
+    <div class="preview-slider" id="{{ media_type }}Slider">
+        <p>Добавьте {{ 'изображения' if media_type == 'image' else 'видео' }} для предпросмотра</p>
+    </div>
+    <div class="slider-counter" id="{{ media_type }}Counter">0 / 0</div>
+    <div class="slider-controls" style="display: none;" id="{{ media_type }}Controls">
+        <button type="button" class="nav-button" onclick="prevSlide('{{ media_type }}Slider', '{{ media_type }}')">Назад</button>
+        <button type="button" class="delete-button" onclick="deleteCurrentFile('{{ media_type }}')">Удалить</button>
+        <button type="button" class="nav-button" onclick="nextSlide('{{ media_type }}Slider', '{{ media_type }}')">Вперед</button>
+    </div>
+
+    <div class="upload-container">
+        <input type="file" id="{{ media_type }}Input" accept="{{ media_type }}/*" multiple onchange="updateFileName('{{ media_type }}')"><br>
+        <button type="button" class="add-button" onclick="addFile('{{ media_type }}')">Добавить {{ 'фото' if media_type == 'image' else 'видео' }}</button>
+        <button type="button" class="custom-button" onclick="document.getElementById('{{ media_type }}Input').click()">Выбрать {{ 'фото' if media_type == 'image' else 'видео' }}</button>
+        <span class="file-name" id="{{ media_type }}FileName">Не выбран файл</span>
+    </div>
+</div>
+{% endfor %}

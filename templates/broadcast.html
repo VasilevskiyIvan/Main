@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Рассылка{% endblock %}
+
+{% block header %}Новая рассылка{% endblock %}
+
+{% block container %}
+    <div class="user-selector">
+        <label>Выберите пользователя: </label>
+        <select id="userSelect">
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }} (@{{ user.username }})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    {% include 'language_controls.html' %}
+    {% include 'media_controls.html' %}
+
+    <!-- Дополнительные элементы для новой страницы -->
+    <div class="send-controls">
+        <button class="send-button" onclick="sendBroadcast()">Отправить рассылку</button>
+    </div>
+{% endblock %}
