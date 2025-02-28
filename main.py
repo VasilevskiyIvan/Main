@@ -49,11 +49,16 @@ async def serve_home(request: Request):
 async def create_block_page(request: Request):
     return templates.TemplateResponse("add_block.html", {"request": request})
 
-# Обработка добавления нового блока
 @app.post("/blocks/new")
 async def create_block(
-    title: str = Form(...),
-    content: str = Form(...),
+    title_ru: str = Form(None),
+    content_ru: str = Form(None),
+    title_en: str = Form(None),
+    content_en: str = Form(None),
+    title_zh: str = Form(None),
+    content_zh: str = Form(None),
+    title_ar: str = Form(None),
+    content_ar: str = Form(None),
     images: List[UploadFile] = File([]),
     videos: List[UploadFile] = File([]),
 ):
@@ -61,113 +66,141 @@ async def create_block(
 
     # Сохранение загруженных изображений
     image_paths = []
-    for index, image in enumerate(images):
+    for image in images:
         if image.filename:
             extension = os.path.splitext(image.filename)[1]
-            safe_filename = f"{title}_{index + 1}{extension}".replace(" ", "_")
+            safe_filename = f"{uuid4()}{extension}"  # Генерация уникального имени файла
             local_path = os.path.join(IMAGE_DIR, safe_filename)
-            url_path = f"uploads/images/{safe_filename}"
+            url_path = f"/uploads/images/{safe_filename}"
             with open(local_path, "wb") as f:
                 f.write(await image.read())
             image_paths.append(url_path)
 
     # Сохранение загруженных видео
     video_paths = []
-    for index, video in enumerate(videos):
+    for video in videos:
         if video.filename:
             extension = os.path.splitext(video.filename)[1]
-            safe_filename = f"{title}_{index + 1}{extension}".replace(" ", "_")
+            safe_filename = f"{uuid4()}{extension}"  # Генерация уникального имени файла
             local_path = os.path.join(VIDEO_DIR, safe_filename)
-            url_path = f"uploads/videos/{safe_filename}"
+            url_path = f"/uploads/videos/{safe_filename}"
             with open(local_path, "wb") as f:
                 f.write(await video.read())
             video_paths.append(url_path)
 
-    # Добавление нового блока
-    block = {
-        "title": title,
-        "content": content,
-        "images": image_paths or None,
-        "videos": video_paths or None,
+    # Создание нового блока с мультиязычными данными
+    new_block = {
+        "title": {
+            "ru": title_ru,
+            "en": title_en,
+            "zh": title_zh,
+            "ar": title_ar,
+        },
+        "content": {
+            "ru": content_ru,
+            "en": content_en,
+            "zh": content_zh,
+            "ar": content_ar,
+        },
+        "images": image_paths if image_paths else None,
+        "videos": video_paths if video_paths else None,
     }
-    blocks.append(block)
+
+    # Добавление нового блока в список
+    blocks.append(new_block)
     save_blocks(blocks)
 
     return {"message": "Блок успешно добавлен!"}
 
-
 # Страница выбора блока для редактирования
-@app.get("/blocks/manage", response_class=HTMLResponse)
-async def manage_blocks(request: Request):
+@app.get("/blocks/select", response_class=HTMLResponse)
+async def select_block_page(request: Request):
     blocks = read_blocks()
-    return templates.TemplateResponse("manage_blocks.html", {"request": request, "blocks": blocks})
+    return templates.TemplateResponse("select_block.html", {"request": request, "blocks": blocks})
 
-
-# Страница редактирования существующего блока
-@app.get("/blocks/edit", response_class=HTMLResponse)
-async def edit_block_page(request: Request, title: str):
+@app.post("/blocks/update/{block_id}")
+async def update_block(block_id: int, updated_data: dict):
     blocks = read_blocks()
-    block = next((b for b in blocks if b["title"] == title), None)
-    if block is None:
-        raise HTTPException(status_code=404, detail="Block not found")
-    return templates.TemplateResponse("edit_block.html", {"request": request, "block": block, "block_title": title})
+    if block_id < len(blocks):
+        # Обновляем title и content
+        if 'title' in updated_data:
+            blocks[block_id]['title'] = updated_data['title']
+        if 'content' in updated_data:
+            blocks[block_id]['content'] = updated_data['content']
+        save_blocks(blocks)
+        return {"status": "success"}
+    raise HTTPException(status_code=404, detail="Block not found")
 
-# Обработка сохранения изменений блока
-@app.post("/blocks/edit")
-async def edit_block(
-    old_title: str = Form(...),
-    title: str = Form(...),
-    content: str = Form(...),
-    images: List[UploadFile] = File([]),
-    videos: List[UploadFile] = File([]),
-):
+@app.post("/blocks/delete_image/{block_id}")
+async def delete_image(block_id: int):
     blocks = read_blocks()
+    if block_id < len(blocks) and blocks[block_id]['images']:
+        # Удаляем последнее изображение
+        image_path = blocks[block_id]['images'].pop()
+        # Удаляем файл с диска
+        if os.path.exists(image_path.replace("uploads/", "")):
+            os.remove(image_path.replace("uploads/", ""))
+        save_blocks(blocks)
+        return {"status": "success"}
+    raise HTTPException(status_code=404, detail="No image to delete")
 
-    # Найти блок по старому названию
-    block = next((b for b in blocks if b["title"] == old_title), None)
-    if block is None:
-        raise HTTPException(status_code=404, detail="Block not found")
+@app.post("/blocks/delete_video/{block_id}")
+async def delete_video(block_id: int):
+    blocks = read_blocks()
+    if block_id < len(blocks) and blocks[block_id]['videos']:
+        # Удаляем последнее видео
+        video_path = blocks[block_id]['videos'].pop()
+        # Удаляем файл с диска
+        if os.path.exists(video_path.replace("uploads/", "")):
+            os.remove(video_path.replace("uploads/", ""))
+        save_blocks(blocks)
+        return {"status": "success"}
+    raise HTTPException(status_code=404, detail="No video to delete")
 
-    # Проверить уникальность нового названия
-    if title != old_title and any(b["title"] == title for b in blocks):
-        raise HTTPException(status_code=400, detail="Block with this title already exists")
+@app.post("/blocks/add_images/{block_id}")
+async def add_images(block_id: int, images: List[UploadFile] = File(...)):
+    blocks = read_blocks()
+    if block_id < len(blocks):
+        image_paths = []
+        for image in images:
+            if image.filename:
+                extension = os.path.splitext(image.filename)[1]
+                safe_filename = f"{uuid4()}{extension}"
+                local_path = os.path.join(IMAGE_DIR, safe_filename)
+                url_path = f"uploads/images/{safe_filename}"
+                with open(local_path, "wb") as f:
+                    f.write(await image.read())
+                image_paths.append(url_path)
 
-    # Сохранение новых изображений
-    image_paths = block["images"] or []
-    for index, image in enumerate(images):
-        if image.filename:
-            extension = os.path.splitext(image.filename)[1]
-            safe_filename = f"{title}_{len(image_paths) + index + 1}{extension}".replace(" ", "_")
-            local_path = os.path.join(IMAGE_DIR, safe_filename)
-            url_path = f"uploads/images/{safe_filename}"
-            with open(local_path, "wb") as f:
-                f.write(await image.read())
-            image_paths.append(url_path)
+        if not blocks[block_id]['images']:
+            blocks[block_id]['images'] = []
+        blocks[block_id]['images'].extend(image_paths)
+        save_blocks(blocks)
+        return {"status": "success"}
+    raise HTTPException(status_code=404, detail="Block not found")
 
-    # Сохранение новых видео
-    video_paths = block["videos"] or []
-    for index, video in enumerate(videos):
-        if video.filename:
-            extension = os.path.splitext(video.filename)[1]
-            safe_filename = f"{title}_{len(video_paths) + index + 1}{extension}".replace(" ", "_")
-            local_path = os.path.join(VIDEO_DIR, safe_filename)
-            url_path = f"uploads/videos/{safe_filename}"
-            with open(local_path, "wb") as f:
-                f.write(await video.read())
-            video_paths.append(url_path)
+# Добавление новых видео к блоку
+@app.post("/blocks/add_videos/{block_id}")
+async def add_videos(block_id: int, videos: List[UploadFile] = File(...)):
+    blocks = read_blocks()
+    if block_id < len(blocks):
+        video_paths = []
+        for video in videos:
+            if video.filename:
+                extension = os.path.splitext(video.filename)[1]
+                safe_filename = f"{uuid4()}{extension}"
+                local_path = os.path.join(VIDEO_DIR, safe_filename)
+                url_path = f"uploads/videos/{safe_filename}"
+                with open(local_path, "wb") as f:
+                    f.write(await video.read())
+                video_paths.append(url_path)
 
-    # Обновление данных блока
-    block.update({
-        "title": title,
-        "content": content,
-        "images": image_paths,
-        "videos": video_paths,
-    })
-    save_blocks(blocks)
-
-    return RedirectResponse(url="/", status_code=303)
-
-
+        if not blocks[block_id]['videos']:
+            blocks[block_id]['videos'] = []
+        blocks[block_id]['videos'].extend(video_paths)
+        save_blocks(blocks)
+        return {"status": "success"}
+    raise HTTPException(status_code=404, detail="Block not found")
 
 if __name__ == "__main__":
     import uvicorn

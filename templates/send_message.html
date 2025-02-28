@@ -1,62 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Block</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <title>Создание рассылки</title>
+    <style>
+        /* Дополнительные стили для языковых вкладок */
+        .lang-tabs {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+        .lang-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f5f5f5;
+        }
+        .lang-tab.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .lang-content {
+            display: none;
+        }
+        .lang-content.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-
-    <h1>Edit Information Blocks</h1>
-
-    <div class="form-container">
-        <h2>Select Block to Edit</h2>
-        <form id="block-edit-form">
-            <label for="block_select">Choose Block:</label>
-            <select id="block_select" name="block_select" required>
-                <option value="">Select Block</option>
-                <!-- Options will be populated dynamically -->
+    <header>
+        <h1>Создание рассылки</h1>
+    </header>
+    <div class="container">
+        <!-- Выпадающий список пользователей -->
+        <div class="user-select">
+            <label>Получатель:</label>
+            <select id="userSelect" name="user_id">
+                {% for user in tg_users %}
+                    <option value="{{ user.id }}">{{ user.username }} ({{ user.full_name }})</option>
+                {% endfor %}
             </select>
+        </div>
+
+        <!-- Языковые вкладки -->
+        <div class="lang-tabs">
+            <div class="lang-tab active" onclick="switchLang('ru')">Русский</div>
+            <div class="lang-tab" onclick="switchLang('en')">English</div>
+            <div class="lang-tab" onclick="switchLang('ar')">العربية</div>
+            <div class="lang-tab" onclick="switchLang('zh')">中文</div>
+        </div>
+
+        <form id="broadcastForm" action="/broadcast/new" method="post" enctype="multipart/form-data">
+            <!-- Поля для русского языка -->
+            <div class="lang-content active" id="ru">
+                <label for="title_ru">Название (русский):</label>
+                <input type="text" id="title_ru" name="title_ru" required>
+
+                <label for="description_ru">Описание (русский):</label>
+                <textarea id="description_ru" name="description_ru" rows="5" required></textarea>
+            </div>
+
+            <!-- Поля для английского языка -->
+            <div class="lang-content" id="en">
+                <label for="title_en">Title (English):</label>
+                <input type="text" id="title_en" name="title_en" required>
+
+                <label for="description_en">Description (English):</label>
+                <textarea id="description_en" name="description_en" rows="5" required></textarea>
+            </div>
+
+            <!-- Поля для арабского языка -->
+            <div class="lang-content" id="ar">
+                <label for="title_ar" dir="rtl">العنوان (العربية):</label>
+                <input type="text" id="title_ar" name="title_ar" required dir="rtl">
+
+                <label for="description_ar" dir="rtl">الوصف (العربية):</label>
+                <textarea id="description_ar" name="description_ar" rows="5" required dir="rtl"></textarea>
+            </div>
+
+            <!-- Поля для китайского языка -->
+            <div class="lang-content" id="zh">
+                <label for="title_zh">标题 (中文):</label>
+                <input type="text" id="title_zh" name="title_zh" required>
+
+                <label for="description_zh">描述 (中文):</label>
+                <textarea id="description_zh" name="description_zh" rows="5" required></textarea>
+            </div>
+
+            <!-- Блоки для загрузки медиа (оставлены как в примере) -->
+            <!-- Предпросмотр и загрузка фотографий -->
+            <h3>Фотографии</h3>
+            <div class="preview-slider" id="imageSlider">
+                <p>Добавьте изображения для предпросмотра</p>
+            </div>
+            <div class="slider-counter" id="imageCounter">0 / 0</div>
+            <div class="slider-controls" style="display: none;" id="imageControls">
+                <button type="button" class="nav-button" onclick="prevSlide('imageSlider', 'image')">Назад</button>
+                <button type="button" class="delete-button" onclick="deleteCurrentFile('image')">Удалить</button>
+                <button type="button" class="nav-button" onclick="nextSlide('imageSlider', 'image')">Вперед</button>
+            </div>
+
+            <div class="upload-container">
+                <input type="file" id="imageInput" accept="image/*" multiple onchange="updateFileName('image')"><br>
+                <button type="button" class="add-button" onclick="addFile('image')">Добавить фото</button>
+                <button type="button" class="custom-button" onclick="document.getElementById('imageInput').click()">Выбрать фото</button>
+                <span class="file-name" id="imageFileName">Не выбран файл</span>
+            </div>
+
+            <!-- Предпросмотр и загрузка видео -->
+            <h3>Видео</h3>
+            <div class="preview-slider" id="videoSlider">
+                <p>Добавьте видео для предпросмотра</p>
+            </div>
+            <div class="slider-counter" id="videoCounter">0 / 0</div>
+            <div class="slider-controls" style="display: none;" id="videoControls">
+                <button type="button" class="nav-button" onclick="prevSlide('videoSlider', 'video')">Назад</button>
+                <button type="button" class="delete-button" onclick="deleteCurrentFile('video')">Удалить</button>
+                <button type="button" class="nav-button" onclick="nextSlide('videoSlider', 'video')">Вперед</button>
+            </div>
+
+            <div class="upload-container">
+                <input type="file" id="videoInput" accept="video/*" multiple onchange="updateFileName('video')"><br>
+                <button type="button" class="add-button" onclick="addFile('video')">Добавить видео</button>
+                <button type="button" class="custom-button" onclick="document.getElementById('videoInput').click()">Выбрать видео</button>
+                <span class="file-name" id="videoFileName">Не выбран файл</span>
+            </div>
+
+            <button type="button" class="save-block-button" onclick="submitBroadcastForm()">Отправить рассылку</button>
         </form>
     </div>
 
-    <div class="edit-container">
-        <div class="language-section">
-            <h2>Russian</h2>
-            <label for="title_ru">Block Title (RU):</label>
-            <input type="text" id="title_ru" name="title_ru" required>
+    <script>
+        // Логика переключения языковых вкладок
+        function switchLang(lang) {
+            // Убираем активный класс у всех вкладок и контента
+            document.querySelectorAll('.lang-tab, .lang-content').forEach(el => {
+                el.classList.remove('active');
+            });
 
-            <label for="full_description_ru">Full Description (RU):</label>
-            <textarea id="full_description_ru" name="full_description_ru" rows="4" required></textarea>
-        </div>
+            // Добавляем активный класс выбранной вкладке и контенту
+            document.querySelector(`.lang-tab[onclick*="${lang}"]`).classList.add('active');
+            document.getElementById(lang).classList.add('active');
+        }
 
-        <div class="language-section">
-            <h2>English</h2>
-            <label for="title_en">Block Title (EN):</label>
-            <input type="text" id="title_en" name="title_en">
+        // Переиспользуем JavaScript из предыдущего примера с небольшими изменениями
+        const files = { image: [], video: [] };
+        const indices = { image: 0, video: 0 };
 
-            <label for="full_description_en">Full Description (EN):</label>
-            <textarea id="full_description_en" name="full_description_en" rows="4"></textarea>
-        </div>
+        // Остальные функции (deleteCurrentFile, addFile, renderSlider,
+        // updateCounter, prevSlide, nextSlide, updateFileName)
+        // остаются такими же как в предыдущем примере
 
-        <div class="language-section">
-            <h2>Arabic</h2>
-            <label for="title_ar">Block Title (AR):</label>
-            <input type="text" id="title_ar" name="title_ar">
+        // Модифицированная функция отправки формы
+        async function submitBroadcastForm() {
+            const formData = new FormData(document.getElementById('broadcastForm'));
 
-            <label for="full_description_ar">Full Description (AR):</label>
-            <textarea id="full_description_ar" name="full_description_ar" rows="4"></textarea>
-        </div>
-    </div>
+            // Добавляем выбранного пользователя
+            const userId = document.getElementById('userSelect').value;
+            formData.append('user_id', userId);
 
-    <!-- Добавляем блок для списка -->
-    <div id="blocks-list">
-        <!-- Блоки будут отображаться здесь -->
-    </div>
+            // Добавляем медиафайлы
+            files.image.forEach(item => formData.append('images', item.file));
+            files.video.forEach(item => formData.append('videos', item.file));
 
-    <button id="save_button" type="button">Save</button>
+            try {
+                const response = await fetch('/broadcast/new', {
+                    method: 'POST',
+                    body: formData,
+                });
 
-    <script src="/static/script.js"></script>
+                if (!response.ok) throw new Error('Ошибка отправки');
+
+                alert('Рассылка успешно создана!');
+                window.location.href = '/broadcast';
+            } catch (error) {
+                console.error(error);
+                alert('Ошибка при создании рассылки');
+            }
+        }
+
+        // Инициализация первого языка
+        document.addEventListener('DOMContentLoaded', () => {
+            switchLang('ru');
+        });
+    </script>
 </body>
 </html>

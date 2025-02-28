@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Выбор блока</title>
+    <script>
+        const files = { image: [], video: [] }; // Хранение выбранных файлов
+        const indices = { image: 0, video: 0 }; // Текущие индексы для слайдеров
+
+        function showBlockDetails() {
+            var select = document.getElementById("blockSelect");
+            var selectedIndex = select.selectedIndex;
+
+            var titleRu = select.options[selectedIndex].getAttribute("data-title-ru");
+            var titleEn = select.options[selectedIndex].getAttribute("data-title-en");
+            var titleZh = select.options[selectedIndex].getAttribute("data-title-zh");
+            var titleAr = select.options[selectedIndex].getAttribute("data-title-ar");
+
+            var contentRu = select.options[selectedIndex].getAttribute("data-content-ru");
+            var contentEn = select.options[selectedIndex].getAttribute("data-content-en");
+            var contentZh = select.options[selectedIndex].getAttribute("data-content-zh");
+            var contentAr = select.options[selectedIndex].getAttribute("data-content-ar");
+
+            // Заполняем поля ввода для редактирования
+            document.getElementById("editTitleRu").value = titleRu || "";
+            document.getElementById("editTitleEn").value = titleEn || "";
+            document.getElementById("editTitleZh").value = titleZh || "";
+            document.getElementById("editTitleAr").value = titleAr || "";
+
+            document.getElementById("editContentRu").value = contentRu || "";
+            document.getElementById("editContentEn").value = contentEn || "";
+            document.getElementById("editContentZh").value = contentZh || "";
+            document.getElementById("editContentAr").value = contentAr || "";
+
+            // Обновляем индикаторы языков
+            updateLanguageIndicator('ru', titleRu, contentRu);
+            updateLanguageIndicator('en', titleEn, contentEn);
+            updateLanguageIndicator('zh', titleZh, contentZh);
+            updateLanguageIndicator('ar', titleAr, contentAr);
+
+            // Отображаем изображения
+            const imagesData = select.options[selectedIndex].getAttribute("data-images");
+            const imagesContainer = document.getElementById("imageSlider");
+            imagesContainer.innerHTML = "";
+            if (imagesData) {
+                const images = imagesData.split(",");
+                images.forEach((src, index) => {
+                    const img = document.createElement("img");
+                    img.src = src.trim();
+                    img.classList.add(index === 0 ? "active" : "inactive");
+                    imagesContainer.appendChild(img);
+                });
+                document.getElementById("imageControls").style.display = "flex";
+                updateCounter('image', images.length);
+            } else {
+                imagesContainer.innerHTML = "<p>Нет изображений для отображения</p>";
+                document.getElementById("imageControls").style.display = "none";
+                updateCounter('image', 0);
+            }
+
+            // Отображаем видео
+            const videosData = select.options[selectedIndex].getAttribute("data-videos");
+            const videosContainer = document.getElementById("videoSlider");
+            videosContainer.innerHTML = "";
+            if (videosData) {
+                const videos = videosData.split(",");
+                videos.forEach((src, index) => {
+                    const video = document.createElement("video");
+                    video.src = src.trim();
+                    video.controls = true;
+                    video.classList.add(index === 0 ? "active" : "inactive");
+                    videosContainer.appendChild(video);
+                });
+                document.getElementById("videoControls").style.display = "flex";
+                updateCounter('video', videos.length);
+            } else {
+                videosContainer.innerHTML = "<p>Нет видео для отображения</p>";
+                document.getElementById("videoControls").style.display = "none";
+                updateCounter('video', 0);
+            }
+        }
+
+        function updateLanguageIndicator(language, title, content) {
+            const indicator = document.getElementById(`indicator_${language}`);
+            if (title || content) {
+                indicator.classList.add("active-indicator");
+            } else {
+                indicator.classList.remove("active-indicator");
+            }
+        }
+
+        function updateCounter(type, total) {
+            const counter = document.getElementById(`${type}Counter`);
+            counter.textContent = `1 / ${total}`;
+        }
+
+        function prevSlide(sliderId, type) {
+            const slider = document.getElementById(sliderId);
+            const activeElement = slider.querySelector(".active");
+            const prevElement = activeElement.previousElementSibling || slider.lastElementChild;
+
+            if (prevElement) {
+                activeElement.classList.remove("active");
+                activeElement.classList.add("inactive");
+                prevElement.classList.remove("inactive");
+                prevElement.classList.add("active");
+                updateCounter(type, slider.children.length);
+            }
+        }
+
+        function nextSlide(sliderId, type) {
+            const slider = document.getElementById(sliderId);
+            const activeElement = slider.querySelector(".active");
+            const nextElement = activeElement.nextElementSibling || slider.firstElementChild;
+
+            if (nextElement) {
+                activeElement.classList.remove("active");
+                activeElement.classList.add("inactive");
+                nextElement.classList.remove("inactive");
+                nextElement.classList.add("active");
+                updateCounter(type, slider.children.length);
+            }
+        }
+
+        function updateBlockDetails() {
+            var select = document.getElementById("blockSelect");
+            var selectedIndex = select.selectedIndex;
+            var blockId = select.options[selectedIndex].value;
+
+            var updatedData = {
+                title: {
+                    ru: document.getElementById("editTitleRu").value,
+                    en: document.getElementById("editTitleEn").value,
+                    zh: document.getElementById("editTitleZh").value,
+                    ar: document.getElementById("editTitleAr").value
+                },
+                content: {
+                    ru: document.getElementById("editContentRu").value,
+                    en: document.getElementById("editContentEn").value,
+                    zh: document.getElementById("editContentZh").value,
+                    ar: document.getElementById("editContentAr").value
+                }
+            };
+
+            fetch(`/blocks/update/${blockId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedData)
+            }).then(response => response.json())
+              .then(data => {
+                  alert('Данные успешно обновлены!');
+                  showBlockDetails(); // Обновляем отображение
+              });
+        }
+
+        function deleteImage() {
+            var select = document.getElementById("blockSelect");
+            var selectedIndex = select.selectedIndex;
+            var blockId = select.options[selectedIndex].value;
+
+            fetch(`/blocks/delete_image/${blockId}`, {
+                method: 'POST'
+            }).then(response => response.json())
+              .then(data => {
+                  alert('Изображение удалено!');
+                  showBlockDetails(); // Обновляем отображение
+              });
+        }
+
+        function deleteVideo() {
+            var select = document.getElementById("blockSelect");
+            var selectedIndex = select.selectedIndex;
+            var blockId = select.options[selectedIndex].value;
+
+            fetch(`/blocks/delete_video/${blockId}`, {
+                method: 'POST'
+            }).then(response => response.json())
+              .then(data => {
+                  alert('Видео удалено!');
+                  showBlockDetails(); // Обновляем отображение
+              });
+        }
+
+        // Функция для добавления новых фото
+        function addImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.multiple = true;
+
+            input.onchange = e => {
+                const newFiles = Array.from(e.target.files);
+                if (newFiles.length === 0) return;
+
+                const formData = new FormData();
+                newFiles.forEach(file => formData.append('images', file));
+
+                var select = document.getElementById("blockSelect");
+                var selectedIndex = select.selectedIndex;
+                var blockId = select.options[selectedIndex].value;
+
+                fetch(`/blocks/add_images/${blockId}`, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                  .then(data => {
+                      alert('Изображения добавлены!');
+                      showBlockDetails(); // Обновляем отображение
+                  });
+            };
+
+            input.click();
+        }
+
+        // Функция для добавления новых видео
+        function addVideo() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*';
+            input.multiple = true;
+
+            input.onchange = e => {
+                const newFiles = Array.from(e.target.files);
+                if (newFiles.length === 0) return;
+
+                const formData = new FormData();
+                newFiles.forEach(file => formData.append('videos', file));
+
+                var select = document.getElementById("blockSelect");
+                var selectedIndex = select.selectedIndex;
+                var blockId = select.options[selectedIndex].value;
+
+                fetch(`/blocks/add_videos/${blockId}`, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                  .then(data => {
+                      alert('Видео добавлены!');
+                      showBlockDetails(); // Обновляем отображение
+                  });
+            };
+
+            input.click();
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Выбор блока</h1>
+    </header>
+    <div class="container">
+        <div class="language-indicators">
+            <div id="indicator_ru" class="language-indicator">ru</div>
+            <div id="indicator_en" class="language-indicator">en</div>
+            <div id="indicator_zh" class="language-indicator">zh</div>
+            <div id="indicator_ar" class="language-indicator">ar</div>
+        </div>
+
+        <form>
+            <h2>Выберите блок:</h2>
+            <label for="blockSelect">Блок:</label>
+            <select id="blockSelect" onchange="showBlockDetails()">
+                {% for block in blocks %}
+                    <option value="{{ loop.index0 }}"
+                            data-title-ru="{{ block.title.ru }}"
+                            data-title-en="{{ block.title.en }}"
+                            data-title-zh="{{ block.title.zh }}"
+                            data-title-ar="{{ block.title.ar }}"
+                            data-content-ru="{{ block.content.ru }}"
+                            data-content-en="{{ block.content.en }}"
+                            data-content-zh="{{ block.content.zh }}"
+                            data-content-ar="{{ block.content.ar }}"
+                            data-images="{{ ', '.join(block.images) if block.images else '' }}"
+                            data-videos="{{ ', '.join(block.videos) if block.videos else '' }}">
+                        {{ block.title.ru or block.title.en or block.title.zh or block.title.ar }} -
+                        {{ block.content.ru or block.content.en or block.content.zh or block.content.ar }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <h3>Все названия блока:</h3>
+        <p><strong>Русский:</strong> <input type="text" id="editTitleRu" value=""></p>
+        <p><strong>Английский:</strong> <input type="text" id="editTitleEn" value=""></p>
+        <p><strong>Китайский:</strong> <input type="text" id="editTitleZh" value=""></p>
+        <p><strong>Арабский:</strong> <input type="text" id="editTitleAr" value=""></p>
+
+        <h3>Все описания блока:</h3>
+        <p><strong>Русский:</strong> <textarea id="editContentRu"></textarea></p>
+        <p><strong>Английский:</strong> <textarea id="editContentEn"></textarea></p>
+        <p><strong>Китайский:</strong> <textarea id="editContentZh"></textarea></p>
+        <p><strong>Арабский:</strong> <textarea id="editContentAr"></textarea></p>
+
+        <button type="button" onclick="updateBlockDetails()">Сохранить изменения</button>
+
+        <h3>Изображения:</h3>
+        <div class="preview-slider" id="imageSlider">
+            <p>Нет изображений для отображения</p>
+        </div>
+        <div class="slider-counter" id="imageCounter">0 / 0</div>
+        <div class="slider-controls" style="display: none;" id="imageControls">
+            <button type="button" class="nav-button" onclick="prevSlide('imageSlider', 'image')">Назад</button>
+            <button type="button" class="nav-button" onclick="nextSlide('imageSlider', 'image')">Вперед</button>
+            <button type="button" onclick="deleteImage()">Удалить изображение</button>
+            <button type="button" onclick="addImage()">Добавить фото</button>
+        </div>
+
+        <h3>Видео:</h3>
+        <div class="preview-slider" id="videoSlider">
+            <p>Нет видео для отображения</p>
+        </div>
+        <div class="slider-counter" id="videoCounter">0 / 0</div>
+        <div class="slider-controls" style="display: none;" id="videoControls">
+            <button type="button" class="nav-button" onclick="prevSlide('videoSlider', 'video')">Назад</button>
+            <button type="button" class="nav-button" onclick="nextSlide('videoSlider', 'video')">Вперед</button>
+            <button type="button" onclick="deleteVideo()">Удалить видео</button>
+            <button type="button" onclick="addVideo()">Добавить видео</button>
+        </div>
+    </div>
+</body>
+</html>

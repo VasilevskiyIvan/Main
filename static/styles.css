@@ -176,6 +176,12 @@ form button.nav-button, form button.add-button, form button.custom-button {
     color: white;
 }
 
+form button.add-language-button {
+    margin-left: 50px;
+    background: linear-gradient(145deg, #5A6268, #757D85);
+    color: white;
+}
+
 /* Сохранить блок - Зеленый и увеличенный размер */
 form button.save-block-button {
     background: #28a745;
@@ -189,9 +195,60 @@ form button.save-block-button {
     text-align: center; /* Текст по центру */
 }
 
-form button.nav-button:hover, form button.add-button:hover, form button.custom-button:hover, form button.save-block-button:hover {
+form button.nav-button:hover, form button.add-button:hover, form button.custom-button:hover, form button.save-block-button:hover, form button.add-language-button:hover {
     background: linear-gradient(145deg, #757D85, #9A9EA2);
 }
+
+select {
+    padding: 10px;
+    font-size: 18px;
+    margin-top: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+select:focus {
+    border-color: #007bff;
+}
+.language-block {
+    display: none;
+}
+
+.active-language {
+    display: block;
+}
+
+.language-indicators {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.language-indicator {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: red; /* По умолчанию красные */
+    color: white;
+}
+
+/* Выравнивание индикаторов по центру */
+#languageIndicators {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.active-indicator {
+    background-color: green;
+}
+
 
 
 @media (max-width: 992px) {

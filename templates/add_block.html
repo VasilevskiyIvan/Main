@@ -11,15 +11,62 @@
         <h1>Добавить новый блок</h1>
     </header>
     <div class="container">
-        <!-- Форма отправки блока -->
-        <form id="blockForm" action="/blocks/new" method="post" enctype="multipart/form-data">
-            <!-- Поле для заголовка -->
-            <label for="title">Заголовок:</label><br>
-            <input type="text" id="title" name="title" required><br><br>
+        <div class="language-indicators">
+            <div id="indicator_ru" class="language-indicator">ru</div>
+            <div id="indicator_en" class="language-indicator">en</div>
+            <div id="indicator_zh" class="language-indicator">zh</div>
+            <div id="indicator_ar" class="language-indicator">ar</div>
+        </div>
 
-            <!-- Поле для содержания -->
-            <label for="content">Содержание:</label><br>
-            <textarea id="content" name="content" rows="10" required></textarea><br><br>
+        <form id="blockForm" action="/blocks/new" method="post" enctype="multipart/form-data">
+            <h2>Добавить контент для разных языков</h2>
+
+            <div>
+                <label for="languageSelect">Выберите язык:</label>
+                <select id="languageSelect" onchange="showLanguageBlock()">
+                    <option value="">Выберите язык</option>
+                    <option value="ru">Русский</option>
+                    <option value="en">English</option>
+                    <option value="zh">中文</option>
+                    <option value="ar">العربية</option>
+                </select>
+                <button type="button" class="add-language-button"  onclick="addLanguage()">Добавить информацию на другом языке</button>
+            </div>
+
+            <!-- Блоки для каждого языка -->
+            <div id="languageBlocks">
+                <div class="language-block" id="block_ru">
+                    <h3>Русский</h3>
+                    <label for="title_ru">Название:</label>
+                    <input type="text" id="title_ru" name="title_ru" onchange="updateLanguageIndicator('ru')">
+                    <label for="content_ru">Содержание:</label>
+                    <textarea id="content_ru" name="content_ru" rows="5" onchange="updateLanguageIndicator('ru')"></textarea>
+                </div>
+
+                <div class="language-block" id="block_en">
+                    <h3>English</h3>
+                    <label for="title_en">Title:</label>
+                    <input type="text" id="title_en" name="title_en" onchange="updateLanguageIndicator('en')">
+                    <label for="content_en">Content:</label>
+                    <textarea id="content_en" name="content_en" rows="5" onchange="updateLanguageIndicator('en')"></textarea>
+                </div>
+
+                <div class="language-block" id="block_zh">
+                    <h3>中文</h3>
+                    <label for="title_zh">标题:</label>
+                    <input type="text" id="title_zh" name="title_zh" onchange="updateLanguageIndicator('zh')">
+                    <label for="content_zh">内容:</label>
+                    <textarea id="content_zh" name="content_zh" rows="5" onchange="updateLanguageIndicator('zh')"></textarea>
+                </div>
+
+                <div class="language-block" id="block_ar">
+                    <h3>العربية</h3>
+                    <label for="title_ar">العنوان:</label>
+                    <input type="text" id="title_ar" name="title_ar" onchange="updateLanguageIndicator('ar')">
+                    <label for="content_ar">المحتوى:</label>
+                    <textarea id="content_ar" name="content_ar" rows="5" onchange="updateLanguageIndicator('ar')"></textarea>
+                </div>
+            </div>
 
             <!-- Предпросмотр фотографий -->
             <h3>Предпросмотр фотографий</h3>
@@ -200,6 +247,50 @@
                 fileName.textContent = 'Не выбран файл';
             }
         }
+
+        function updateLanguageIndicator(language) {
+            const indicator = document.getElementById(`indicator_${language}`);
+            const titleInput = document.getElementById(`title_${language}`);
+            const contentInput = document.getElementById(`content_${language}`);
+
+            if (titleInput.value.trim() !== "" && contentInput.value.trim() !== "") {
+                indicator.classList.add('active-indicator');
+            } else {
+                indicator.classList.remove('active-indicator');
+            }
+        }
+
+        // Функция для отображения блока соответствующего языка
+        function showLanguageBlock() {
+            const selectedLanguage = document.getElementById('languageSelect').value;
+            const allBlocks = document.querySelectorAll('.language-block');
+            allBlocks.forEach(block => {
+                block.classList.remove('active-language');
+            });
+
+            if (selectedLanguage) {
+                document.getElementById(`block_${selectedLanguage}`).classList.add('active-language');
+            }
+        }
+
+        function addLanguage() {
+            const selectedLanguage = document.getElementById('languageSelect').value;
+            const languageSelect = document.getElementById('languageSelect');
+            const options = languageSelect.querySelectorAll('option');
+            let nextLanguage = false;
+
+            options.forEach(option => {
+                if (nextLanguage && option.value) {
+                    languageSelect.value = option.value;
+                    showLanguageBlock();
+                    nextLanguage = false;
+                }
+                if (option.value === selectedLanguage) {
+                    nextLanguage = true;
+                }
+            });
+        }
+
     </script>
 </body>
 </html>
