@@ -1,6 +1,7 @@
 <!-- media_controls.html -->
-{% for media_type in ['image', 'video'] %}
+{% for media_type in ['image', 'video', 'other'] %}
 <div class="media-section">
+    {% if media_type != 'other' %}
     <h3>Предпросмотр {{ 'фотографий' if media_type == 'image' else 'видео' }}</h3>
     <div class="preview-slider" id="{{ media_type }}Slider">
         <p>Добавьте {{ 'изображения' if media_type == 'image' else 'видео' }} для предпросмотра</p>
@@ -11,11 +12,21 @@
         <button type="button" class="delete-button" onclick="deleteCurrentFile('{{ media_type }}')">Удалить</button>
         <button type="button" class="nav-button" onclick="nextSlide('{{ media_type }}Slider', '{{ media_type }}')">Вперед</button>
     </div>
+    {% else %}
+    <h3>Другие файлы</h3>
+    <div class="file-list" id="otherFilesList">
+        {% for file in initialMedia.get('others', []) %}
+        <div class="file-item" data-filename="{{ file }}">
+            <a href="{{ file }}" download class="file-link">{{ file | get_filename }}</a>
+            <button type="button" class="delete-file-button" onclick="deleteFile('other', '{{ file }}')">×</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <div class="upload-container">
-        <input type="file" id="{{ media_type }}Input" accept="{{ media_type }}/*" multiple onchange="updateFileName('{{ media_type }}')"><br>
-        <button type="button" class="add-button" onclick="addFile('{{ media_type }}')">Добавить {{ 'фото' if media_type == 'image' else 'видео' }}</button>
-        <button type="button" class="custom-button" onclick="document.getElementById('{{ media_type }}Input').click()">Выбрать {{ 'фото' if media_type == 'image' else 'видео' }}</button>
+        <input type="file" id="{{ media_type }}Input" {% if media_type == 'other' %}accept="*"{% else %}accept="{{ media_type }}/*"{% endif %} multiple onchange="updateFileName('{{ media_type }}')"><br>
+        <button type="button" class="add-button" onclick="addFile('{{ media_type }}')">Добавить {{ 'фото' if media_type == 'image' else 'видео' if media_type == 'video' else 'файлы' }}</button>
         <span class="file-name" id="{{ media_type }}FileName">Не выбран файл</span>
     </div>
 </div>

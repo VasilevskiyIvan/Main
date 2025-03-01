@@ -1,5 +1,5 @@
-/* static/styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 body {
     background-image: url('img/backbot.png');
     background-size: cover;
@@ -17,12 +17,40 @@ header {
     padding: 20px;
     background: rgba(255, 255, 255, 0.8);
     border-bottom: 2px solid #ddd;
+    position: relative;
 }
 
 header h1 {
     margin: 0;
     font-size: 24px;
     color: #333;
+}
+
+.header-controls {
+    margin-top: 10px;
+}
+
+.home-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #6200EA;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.home-button:hover {
+    background-color: #5300D6;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.home-button:active {
+    background-color: #4500B8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .container {
@@ -100,29 +128,10 @@ textarea {
 }
 
 .upload-container input[type="file"] {
+    display: none;
     margin-bottom: 10px;
 }
 
-.upload-container button {
-    background: #6200EA;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.upload-container button:hover {
-    background: #5300D6;
-}
-
-/* Скрыть стандартный input[type="file"] */
-.upload-container input[type="file"] {
-    display: none; /* Скрываем стандартное поле */
-}
-
-/* Стилизуем кнопку для выбора файлов */
 .upload-container .custom-file-button {
     background: #6200EA;
     color: white;
@@ -139,7 +148,6 @@ textarea {
     background: #5300D6;
 }
 
-/* Стилизуем текст с выбранными файлами */
 .upload-container .file-name {
     margin-top: 10px;
     color: #555;
@@ -147,7 +155,6 @@ textarea {
     display: block;
 }
 
-/* Общие стили для всех кнопок */
 button {
     padding: 12px;
     font-size: 16px;
@@ -160,43 +167,86 @@ button:hover {
     opacity: 0.9;
 }
 
-/* Удалить - Красный */
-form button.delete-button {
+button.delete-button {
     background-color: #D9534F;
     color: white;
 }
 
-form button.delete-button:hover {
+button.delete-button:hover {
     background-color: #C9302C;
 }
 
-/* Назад и Вперед - Зеленый */
-form button.nav-button, form button.add-button, form button.custom-button {
+button.nav-button,
+button.add-button {
     background: linear-gradient(145deg, #5A6268, #757D85);
     color: white;
 }
 
-form button.add-language-button {
+button.add-language-button {
     margin-left: 50px;
     background: linear-gradient(145deg, #5A6268, #757D85);
     color: white;
 }
 
-/* Сохранить блок - Зеленый и увеличенный размер */
-form button.save-block-button {
+button.save-block-button {
     background: #28a745;
     color: white;
     padding: 20px 40px;
     font-size: 1.2rem;
     border-radius: 10px;
-    width: 100%; /* Растягиваем кнопку по ширине */
-    margin: 10px auto; /* Центрируем по горизонтали */
-    display: block; /* Делаем кнопку блочной, чтобы растянуть по ширине */
-    text-align: center; /* Текст по центру */
+    width: 100%;
+    margin: 10px auto;
+    display: block;
+    text-align: center;
 }
 
-form button.nav-button:hover, form button.add-button:hover, form button.custom-button:hover, form button.save-block-button:hover, form button.add-language-button:hover {
+button.nav-button:hover,
+button.add-button:hover,
+button.save-block-button:hover,
+button.add-language-button:hover {
     background: linear-gradient(145deg, #757D85, #9A9EA2);
+}
+
+button.save-block-button:hover {
+    background: linear-gradient(to right, #28a745, #54d141, #28a745);
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.action-button {
+    display: inline-block;
+    width: 80%;
+    max-width: 300px;
+    padding: 15px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #6200EA, #7C4DFF);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.action-button:hover {
+    background: linear-gradient(145deg, #7C4DFF, #6200EA);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.action-button:active {
+    background: linear-gradient(145deg, #5300D6, #6200EA);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
 }
 
 select {
@@ -211,6 +261,7 @@ select {
 select:focus {
     border-color: #007bff;
 }
+
 .language-block {
     display: none;
 }
@@ -234,11 +285,10 @@ select:focus {
     line-height: 50px;
     font-weight: bold;
     border-radius: 5px;
-    background-color: red; /* По умолчанию красные */
+    background-color: red;
     color: white;
 }
 
-/* Выравнивание индикаторов по центру */
 #languageIndicators {
     display: flex;
     justify-content: center;
@@ -249,7 +299,66 @@ select:focus {
     background-color: green;
 }
 
+/* Стили для списка файлов */
+.file-list {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 0 auto 20px; /* Центрирование и отступ снизу */
+    max-height: 250px;
+    overflow-y: auto;
+    width: 80%; /* Уменьшение ширины */
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
+.file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    margin-bottom: 10px; /* Отступ между элементами */
+    border: 2px solid #e0e0e0; /* Более выраженная рамка */
+    border-radius: 6px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.file-item:hover {
+    border-color: #c0c0c0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.file-link {
+    color: #0066cc;
+    text-decoration: none;
+    max-width: 75%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.file-link:hover {
+    text-decoration: underline;
+    background-color: #f0f0f0;
+}
+
+.delete-file-button {
+    background: none;
+    border: none;
+    color: #ff4444;
+    font-size: 1.5em; /* Увеличенный размер */
+    cursor: pointer;
+    padding: 0 8px;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.delete-file-button:hover {
+    color: #cc0000;
+    transform: scale(1.1);
+}
 
 @media (max-width: 992px) {
     .container {
@@ -258,5 +367,11 @@ select:focus {
 
     .slider-controls button {
         padding: 8px 15px;
+    }
+
+    .action-button {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 16px;
     }
 }

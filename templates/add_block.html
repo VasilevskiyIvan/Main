@@ -2,7 +2,12 @@
 
 {% block title %}Добавить блок{% endblock %}
 
-{% block header %}Добавить новый блок{% endblock %}
+{% block header %}
+    <h1>Добавить новый блок</h1>
+    <div class="header-controls">
+        <a href="/" class="home-button">На главную</a>
+    </div>
+{% endblock %}
 
 {% block container %}
     <form id="mainForm" method="post" enctype="multipart/form-data">
