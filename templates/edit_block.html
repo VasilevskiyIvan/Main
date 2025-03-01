@@ -44,16 +44,48 @@
         </form>
 
         <h3>Название блока:</h3>
-        <input type="text" id="editTitleRU" oninput="updateLanguageIndicator('ru')">
-        <input type="text" id="editTitleEN" oninput="updateLanguageIndicator('en')">
-        <input type="text" id="editTitleZH" oninput="updateLanguageIndicator('zh')">
-        <input type="text" id="editTitleAR" oninput="updateLanguageIndicator('ar')">
+        <div style="margin: 10px 0">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+                <div>
+                    <label class="language-label">Русский</label>
+                    <input type="text" id="editTitleRU" oninput="updateLanguageIndicator('ru')" style="width: 100%">
+                </div>
+                <div>
+                    <label class="language-label">English</label>
+                    <input type="text" id="editTitleEN" oninput="updateLanguageIndicator('en')" style="width: 100%">
+                </div>
+                <div>
+                    <label class="language-label">中文</label>
+                    <input type="text" id="editTitleZH" oninput="updateLanguageIndicator('zh')" style="width: 100%">
+                </div>
+                <div>
+                    <label class="language-label">العربية</label>
+                    <input type="text" id="editTitleAR" oninput="updateLanguageIndicator('ar')" style="width: 100%">
+                </div>
+            </div>
+        </div>
 
         <h3>Описание блока:</h3>
-        <textarea id="editContentRU" oninput="updateLanguageIndicator('ru')"></textarea>
-        <textarea id="editContentEN" oninput="updateLanguageIndicator('en')"></textarea>
-        <textarea id="editContentZH" oninput="updateLanguageIndicator('zh')"></textarea>
-        <textarea id="editContentAR" oninput="updateLanguageIndicator('ar')"></textarea>
+        <div style="margin: 10px 0">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+                <div>
+                    <label class="language-label">Русский</label>
+                    <textarea id="editContentRU" oninput="updateLanguageIndicator('ru')" style="width: 100%"></textarea>
+                </div>
+                <div>
+                    <label class="language-label">English</label>
+                    <textarea id="editContentEN" oninput="updateLanguageIndicator('en')" style="width: 100%"></textarea>
+                </div>
+                <div>
+                    <label class="language-label">中文</label>
+                    <textarea id="editContentZH" oninput="updateLanguageIndicator('zh')" style="width: 100%"></textarea>
+                </div>
+                <div>
+                    <label class="language-label">العربية</label>
+                    <textarea id="editContentAR" oninput="updateLanguageIndicator('ar')" style="width: 100%"></textarea>
+                </div>
+            </div>
+        </div>
 
         {% include 'media_controls.html' %}
 

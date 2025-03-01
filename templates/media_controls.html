@@ -25,7 +25,12 @@
     {% endif %}
 
     <div class="upload-container">
-        <input type="file" id="{{ media_type }}Input" {% if media_type == 'other' %}accept="*"{% else %}accept="{{ media_type }}/*"{% endif %} multiple onchange="updateFileName('{{ media_type }}')"><br>
+        <input type="file" id="{{ media_type }}Input"
+               {% if media_type == 'image' %}accept="image/*"{% endif %}
+               {% if media_type == 'video' %}accept="video/mp4,video/quicktime"{% endif %}
+               {% if media_type == 'other' %}accept="*"{% endif %}
+               multiple
+               onchange="validateAndAddFiles('{{ media_type }}')"><br>
         <button type="button" class="add-button" onclick="addFile('{{ media_type }}')">Добавить {{ 'фото' if media_type == 'image' else 'видео' if media_type == 'video' else 'файлы' }}</button>
         <span class="file-name" id="{{ media_type }}FileName">Не выбран файл</span>
     </div>

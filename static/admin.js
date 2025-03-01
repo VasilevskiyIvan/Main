@@ -3,7 +3,6 @@ const indices = { image: 0, video: 0, other: 0 };
 let currentBlockId = null;
 let initialMedia = { images: [], videos: [], others: [] };
 
-// Общие функции для работы с медиа
 function renderSlider(type) {
     if (type === 'other') return;
 
@@ -53,18 +52,24 @@ function renderFileList() {
 function updateCounter(type) {
     if (type === 'other') return;
     const counter = document.getElementById(`${type}Counter`);
-    counter.textContent = `${indices[type] + 1} / ${files[type].length}`;
+
+    if (files[type].length === 0) {
+        counter.textContent = '0 / 0';
+        indices[type] = 0;
+    } else {
+        counter.textContent = `${indices[type] + 1} / ${files[type].length}`;
+    }
 }
 
 function prevSlide(sliderId, type) {
-    if (type === 'other') return;
+    if (type === 'other' || files[type].length === 0) return;
     const total = files[type].length;
     indices[type] = (indices[type] - 1 + total) % total;
     renderSlider(type);
 }
 
 function nextSlide(sliderId, type) {
-    if (type === 'other') return;
+    if (type === 'other' || files[type].length === 0) return;
     const total = files[type].length;
     indices[type] = (indices[type] + 1) % total;
     renderSlider(type);
@@ -111,6 +116,9 @@ function deleteFile(type, index) {
 }
 
 async function addFile(type, useExistingInput = false) {
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+    const allowedVideoTypes = ['video/mp4', 'video/webm', 'video/mov', 'video/x-msvideo'];
+
     let input;
     if (useExistingInput) {
         input = document.getElementById(`${type}Input`);
@@ -118,44 +126,93 @@ async function addFile(type, useExistingInput = false) {
         input = document.createElement('input');
         input.type = 'file';
         input.multiple = true;
-        input.accept = type === 'image' ? 'image/*' :
-                      type === 'video' ? 'video/*' : '*';
+        input.accept = type === 'image' ? allowedImageTypes.join(', ') :
+                      type === 'video' ? allowedVideoTypes.join(', ') : '*';
     }
 
     input.onchange = async (e) => {
-        const newFiles = Array.from(e.target.files).map(file => ({
-            name: file.name,
-            file,
-            url: URL.createObjectURL(file)
-        }));
+        const filesToAdd = Array.from(e.target.files);
+        const validFiles = [];
+        const invalidFiles = [];
+        for(const file of filesToAdd) {
+            let isValid = false;
 
-        if (type === 'other') {
-            files.other.push(...newFiles);
-            renderFileList();
-        } else {
-            files[type].push(...newFiles);
-            renderSlider(type);
-            document.getElementById(`${type}Controls`).style.display = 'flex';
+            if(type === 'image') {
+                isValid = allowedImageTypes.includes(file.type);
+            }
+            else if(type === 'video') {
+                isValid = allowedVideoTypes.includes(file.type);
+            }
+            else {
+                isValid = true;
+            }
+
+            if(isValid) {
+                validFiles.push({
+                    name: file.name,
+                    file,
+                    url: URL.createObjectURL(file)
+                });
+            } else {
+                invalidFiles.push(file.name);
+            }
+        }
+        if(invalidFiles.length > 0) {
+            alert(`Следующие файлы не поддерживаются для типа "${type}":\n${invalidFiles.join('\n')}`);
+        }
+        if(validFiles.length > 0) {
+            if(type === 'other') {
+                files.other.push(...validFiles);
+                renderFileList();
+            } else {
+                files[type].push(...validFiles);
+                renderSlider(type);
+                document.getElementById(`${type}Controls`).style.display = 'flex';
+            }
         }
 
-        if (!useExistingInput) input.remove();
+        if(!useExistingInput) input.remove();
     };
 
-    if (!useExistingInput) input.click();
+    if(!useExistingInput) input.click();
 }
 
-// Функции для языковых индикаторов
-function updateLanguageIndicator(language) {
-    const indicator = document.getElementById(`indicator_${language}`);
-    const title = document.getElementById(`editTitle${language.toUpperCase()}`)?.value || document.getElementById(`title_${language}`)?.value;
-    const content = document.getElementById(`editContent${language.toUpperCase()}`)?.value || document.getElementById(`content_${language}`)?.value;
-    indicator.classList.toggle('active-indicator', !!title || !!content);
+function updateLanguageIndicator(lang) {
+    const indicator = document.getElementById(`indicator_${lang}`);
+    const title = document.getElementById(`editTitle${lang.toUpperCase()}`)?.value.trim() ||
+                 document.getElementById(`title_${lang}`)?.value.trim();
+    const content = document.getElementById(`editContent${lang.toUpperCase()}`)?.value.trim() ||
+                   document.getElementById(`content_${lang}`)?.value.trim();
+
+    indicator.classList.remove(
+        'danger-indicator',
+        'warning-indicator',
+        'success-indicator'
+    );
+
+    if (!title && !content) {
+        indicator.classList.add('danger-indicator');
+    } else if (title && content) {
+        indicator.classList.add('success-indicator');
+    } else {
+        indicator.classList.add('warning-indicator');
+    }
+
+    indicator.style.animation = (!title && !content) ? 'pulse-red 1.5s infinite' : 'none';
 }
 
-// Функции для редактирования
+document.addEventListener('DOMContentLoaded', () => {
+    ['ru', 'en', 'zh', 'ar'].forEach(lang => {
+        updateLanguageIndicator(lang);
+    });
+});
+
 async function loadBlockData(blockId) {
     const response = await fetch(`/blocks/get/${blockId}`);
     const block = await response.json();
+
+    indices.image = 0;
+    indices.video = 0;
 
     files.image = block.media.images.map(url => ({ url, file: null }));
     files.video = block.media.videos.map(url => ({ url, file: null }));
@@ -164,6 +221,9 @@ async function loadBlockData(blockId) {
         name: url.split('/').pop(),
         file: null
     }));
+
+    updateCounter('image');
+    updateCounter('video');
 
     initialMedia = {
         images: [...block.media.images],
@@ -180,51 +240,74 @@ async function loadBlockData(blockId) {
     renderSlider('image');
     renderSlider('video');
     renderFileList();
-    document.getElementById('imageControls').style.display = 'flex';
-    document.getElementById('videoControls').style.display = 'flex';
+
+    document.getElementById('imageControls').style.display =
+        files.image.length > 0 ? 'flex' : 'none';
+    document.getElementById('videoControls').style.display =
+        files.video.length > 0 ? 'flex' : 'none';
 }
 
 async function submitEditForm() {
-    const title = {}, content = {};
-    ['ru', 'en', 'zh', 'ar'].forEach(lang => {
-        title[lang] = document.getElementById(`editTitle${lang.toUpperCase()}`).value;
-        content[lang] = document.getElementById(`editContent${lang.toUpperCase()}`).value;
-    });
+    try {
+        const titleRU = document.getElementById('editTitleRU')?.value.trim();
+        if (!titleRU) {
+            alert('Ошибка: Поле заголовка на русском языке обязательно для заполнения!');
+            document.getElementById('editTitleRU').style.border = '2px solid red';
+            document.getElementById('editTitleRU').focus();
+            return;
+        }
 
-    await fetch(`/blocks/update/${currentBlockId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, content })
-    });
+        const title = {}, content = {};
+        ['ru', 'en', 'zh', 'ar'].forEach(lang => {
+            title[lang] = document.getElementById(`editTitle${lang.toUpperCase()}`).value;
+            content[lang] = document.getElementById(`editContent${lang.toUpperCase()}`).value;
+        });
 
-    const formData = new FormData();
-    const deletedImages = initialMedia.images.filter(initialUrl =>
-        !files.image.some(file => file.url === initialUrl));
-    const deletedVideos = initialMedia.videos.filter(initialUrl =>
-        !files.video.some(file => file.url === initialUrl));
-    const deletedOthers = initialMedia.others.filter(initialUrl =>
-        !files.other.some(file => file.url === initialUrl));
+        await fetch(`/blocks/update/${currentBlockId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, content })
+        });
 
-    deletedImages.forEach(url => formData.append('delete_images', url.split('/').pop()));
-    deletedVideos.forEach(url => formData.append('delete_videos', url.split('/').pop()));
-    deletedOthers.forEach(url => formData.append('delete_others', url.split('/').pop()));
+        const formData = new FormData();
+        const deletedImages = initialMedia.images.filter(initialUrl =>
+            !files.image.some(file => file.url === initialUrl));
+        const deletedVideos = initialMedia.videos.filter(initialUrl =>
+            !files.video.some(file => file.url === initialUrl));
+        const deletedOthers = initialMedia.others.filter(initialUrl =>
+            !files.other.some(file => file.url === initialUrl));
 
-    files.image.forEach(file => { if (file.file) formData.append('images', file.file) });
-    files.video.forEach(file => { if (file.file) formData.append('videos', file.file) });
-    files.other.forEach(file => { if (file.file) formData.append('others', file.file) });
+        deletedImages.forEach(url => formData.append('delete_images', url.split('/').pop()));
+        deletedVideos.forEach(url => formData.append('delete_videos', url.split('/').pop()));
+        deletedOthers.forEach(url => formData.append('delete_others', url.split('/').pop()));
 
-    await fetch(`/blocks/update_media/${currentBlockId}`, {
-        method: 'POST',
-        body: formData
-    });
+        files.image.forEach(file => { if (file.file) formData.append('images', file.file) });
+        files.video.forEach(file => { if (file.file) formData.append('videos', file.file) });
+        files.other.forEach(file => { if (file.file) formData.append('others', file.file) });
 
-    alert('Изменения сохранены!');
-    window.location.reload();
+        await fetch(`/blocks/update_media/${currentBlockId}`, {
+            method: 'POST',
+            body: formData
+        });
+
+        alert('Изменения сохранены!');
+        window.location.reload();
+
+    } catch (error) {
+        console.error('Ошибка сохранения:', error);
+        alert('Ошибка при сохранении: ' + error.message);
+    }
 }
 
-// Функции для создания новых блоков
 async function submitForm() {
     try {
+        const titleRU = document.getElementById('title_ru')?.value.trim() ||
+                      document.getElementById('editTitleRU')?.value.trim();
+
+        if (!titleRU) {
+            alert('Ошибка: Поле заголовка на русском языке обязательно для заполнения!');
+            return;
+        }
         const formData = new FormData(document.getElementById('mainForm'));
 
         files.image.forEach(item => formData.append('images', item.file));
@@ -248,7 +331,6 @@ async function submitForm() {
     }
 }
 
-// Вспомогательные функции
 function updateFileName(type) {
     const input = document.getElementById(`${type}Input`);
     const fileName = document.getElementById(`${type}FileName`);

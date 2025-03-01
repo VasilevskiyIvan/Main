@@ -84,7 +84,7 @@ async def broadcast_page(request: Request):
     return templates.TemplateResponse("broadcast.html", {
         "request": request,
         "users": users,
-        "initialMedia": {"others": []}  # Добавляем пустые данные
+        "initialMedia": {"others": []}
     })
 
 
@@ -149,7 +149,7 @@ async def save_media(files: List[UploadFile], directory: str) -> List[str]:
 async def create_block_page(request: Request):
     return templates.TemplateResponse("add_block.html", {
         "request": request,
-        "initialMedia": {"others": []}  # Добавляем пустые данные
+        "initialMedia": {"others": []}
     })
 
 
@@ -203,7 +203,7 @@ async def select_block_page(request: Request):
     return templates.TemplateResponse("edit_block.html", {
         "request": request,
         "blocks": blocks,
-        "initialMedia": {"others": []}  # Добавляем для безопасности
+        "initialMedia": {"others": []}
     })
 
 
@@ -276,7 +276,6 @@ async def update_media(
             if not url.endswith(filename)
         ]
 
-    # Add new files
     new_images = await save_media(images, IMAGE_DIR)
     new_videos = await save_media(videos, VIDEO_DIR)
     new_others = await save_media(others, OTHER_DIR)

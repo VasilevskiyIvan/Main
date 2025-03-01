@@ -1,104 +1,188 @@
 [
     {
         "title": {
-            "ru": "1",
+            "ru": "Информация о трудоустройстве выпускников",
             "en": "",
-            "zh": "",
+            "zh": "有关毕业生就业的资料",
             "ar": ""
         },
         "content": {
-            "ru": "2",
+            "ru": "Студент ЮУрГУ имеет возможность найти место практики, совмещать работу с учебой или начать успешную карьеру после окончания вуза. Университет оказывает содействие в поиске работы, а также сопровождает молодых специалистов после окончания вуза с целью их дальнейшего карьерного роста. Отдел практики и трудоустройства ведет мониторинг взаимодействия университета с организациями и предприятиями, а также - научные разработки, которые выявляют готовность выпускников к дальнейшей трудовой деятельности и показывают удовлетворенность работодателей качеством подготовки выпускников.\r\n\r\nВ число трудоустроенных выпускников не вошли продолжившие обучение, иностранные граждане, а также выпускники, состоящие на службе в органах и организациях, пенсионное обеспечение которых осуществляется иными органами и организациями, кроме Фонда пенсионного и социального страхования Российской Федерации",
             "en": "",
-            "zh": "",
+            "zh": "苏苏的学生有机会找到一个实习的地方，把工作和学习结合起来，或者在毕业后开始一个成功的职业生涯。 大学为寻找工作提供协助，并在毕业后陪伴年轻专业人士，以促进他们的职业发展。 实践和就业部监督大学与组织和企业的互动，以及科学发展，确定毕业生为进一步工作做好准备，并显示雇主对毕业生培训质量的满意度。\r\n\r\n就业毕业生的人数不包括继续学习的人、外国公民以及在养恤金由俄罗斯联邦养恤金和社会保险基金以外的其他机构和组织提供养恤金的机构和组织服务的毕业生。",
             "ar": ""
-        },
-        "media": {
-            "images": [],
-            "videos": []
-        }
-    },
-    {
-        "title": {
-            "ru": "12134",
-            "en": "",
-            "zh": "",
-            "ar": ""
-        },
-        "content": {
-            "ru": "1241324 м124 12 ау ппп п ",
-            "en": "",
-            "zh": "",
-            "ar": ""
-        },
-        "media": {
-            "images": [],
-            "videos": []
-        }
-    },
-    {
-        "title": {
-            "ru": "3 тест",
-            "en": "3 тест3 тест3 тест",
-            "zh": "",
-            "ar": "3 тест3 тест3 тест3 тест"
-        },
-        "content": {
-            "ru": "3 тест3 тест3 тест3 тест3 тест3 тест3 тест3 тест",
-            "en": "3 тест3 тест3 тест3 тест3 тест",
-            "zh": "",
-            "ar": "3 тест3 тест3 тест3 тест3 тест3 тест3 тест3 тест\r\n\r\n\r\n\r\n3 тест3 тест3 тест3 тест"
         },
         "media": {
             "images": [
-                "/uploads/images\\18f2b88d-a2f2-4d34-a637-e019af5da801.png",
-                "/uploads/images/7096a4a6-48ac-4093-971d-75968e4824c9.jpg"
+                "/uploads/images\\d0d82d68-bea5-4d51-9688-c12a95fdc331.png",
+                "/uploads/images\\daff782a-b193-465b-8e4d-621bbb0d5bf8.png",
+                "/uploads/images\\597db18a-f18c-4ba2-a782-389a6cf40581.png",
+                "/uploads/images\\eff994d5-0ac1-46a0-bd0e-d027d64b8c32.png",
+                "/uploads/images\\2c985fe2-d5bd-4271-a321-2ff50d309dbb.png"
             ],
-            "videos": []
+            "videos": [
+                "/uploads/videos\\5a7d4de9-0d34-4c4d-a603-048ba644041e.mp4",
+                "/uploads/videos\\ded84352-c894-47dd-928a-d361603d7817.mp4"
+            ],
+            "others": [
+                "/uploads/others\\d0cb6b37-2abf-44ad-b462-7dbc8f5ed2b7.pdf",
+                "/uploads/others\\16a0aafa-c062-4a08-ae0a-79eedc8bb7c3.docx",
+                "/uploads/others\\84827950-2a02-4928-b7d6-1671e464db11.pdf",
+                "/uploads/others\\3fc99219-0422-42be-b58e-c5293d51c5c8.pdf",
+                "/uploads/others\\fa414af3-7d40-43ba-9e0b-0e2a88b120ec.pdf"
+            ]
         }
     },
     {
         "title": {
-            "ru": "123",
+            "ru": "еруепруп",
             "en": "",
             "zh": "",
             "ar": ""
         },
         "content": {
-            "ru": "123",
-            "en": "",
-            "zh": "",
-            "ar": ""
-        },
-        "media": {
-            "images": [],
-            "videos": []
-        }
-    },
-    {
-        "title": {
-            "ru": "15",
-            "en": "",
-            "zh": "",
-            "ar": ""
-        },
-        "content": {
-            "ru": "151515151укер ри ер\r\nкептровек пт \r\nетоь веатьеваптьовп",
+            "ru": "В Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм",
             "en": "",
             "zh": "",
             "ar": ""
         },
         "media": {
             "images": [
-                "/uploads/images\\9afb83e4-8573-42df-8a4b-02a19bc0b8d6.jpg",
-                "/uploads/images\\45b3be92-a7e4-40da-93ec-bb3c91e8c80d.jpg",
-                "/uploads/images\\3549b6c7-992f-4272-9aa6-af0e3948e58b.jpg",
-                "/uploads/images\\cd9cb19b-a651-4a62-84ce-18542e09dad6.jpg",
-                "/uploads/images\\dfbcc0ee-ffff-428c-b7f8-03f17f6d83db.jpg",
-                "/uploads/images\\0a2d319c-d5cb-4a65-a4cf-616d46a4bbc8.jpg",
-                "/uploads/images\\0299b1fb-dda0-4719-b617-38e826bc653a.jpg",
-                "/uploads/images\\ed6c17b2-06fc-4467-a3d2-963d30354db6.jpg"
+                "/uploads/images\\a19a1a44-b623-4ac4-aa70-244f204b5e15.png",
+                "/uploads/images\\55e69f18-7879-419e-acf4-d0e401aa167d.svg",
+                "/uploads/images\\6eaede5c-a2f8-4c9a-9a3b-e836a6ed3b9a.png"
             ],
-            "videos": []
+            "videos": [],
+            "others": [
+                "/uploads/others\\f12599f5-4ba3-4676-a465-39f5c7fe6d05.pdf",
+                "/uploads/others\\14f5de26-313d-4c02-bf8c-19b3fc367103.pdf",
+                "/uploads/others\\692fe492-f3c8-4a34-bd64-8ff31e888c9e.pdf",
+                "/uploads/others\\cb2f0786-221b-4998-8ad6-e406dbd43d66.pdf",
+                "/uploads/others\\b1806035-b736-406c-a64e-e637f5e06703.bat",
+                "/uploads/others\\0ae6bd57-bf8d-4b14-8709-2234847b47d2.c",
+                "/uploads/others\\73f656f6-ce44-4a4f-8ace-53600b869ac1.exe",
+                "/uploads/others\\303d393c-c99f-4210-a4d7-74f734746d59.obj",
+                "/uploads/others\\39bcda0e-0729-4815-b8b9-1fcef8897791.exe",
+                "/uploads/others\\c6efc792-4926-4b05-9cf1-b803bc625eea.txt",
+                "/uploads/others\\bc02d99f-8ac2-4f2c-8469-3d73d1ed7333.txt",
+                "/uploads/others\\40fe7507-8716-4af1-84ff-7e227d6067d9.txt",
+                "/uploads/others\\9ee9b54e-4edf-4ae8-943d-4be91fccf136.txt",
+                "/uploads/others\\be8b6fd9-69e6-4279-bf7e-f4cd6e81d22d.txt",
+                "/uploads/others\\70140e58-f5ac-4f40-b9e6-39ab9721b324.txt",
+                "/uploads/others\\bf85ef34-8cb2-41f7-9986-0f632d0da3f9.bat",
+                "/uploads/others\\83530809-3447-42af-9fd5-d8f0f7a54604.c",
+                "/uploads/others\\9dab07e0-d093-4720-9c9e-31890385e97c.exe",
+                "/uploads/others\\dec25550-4637-48a6-a60f-2e1773a1b6b9.obj",
+                "/uploads/others\\5d54eb1b-5a49-4561-96bd-402acde54b4d.c",
+                "/uploads/others\\2688101b-3362-4278-a015-61c6286a3883.exe",
+                "/uploads/others\\2431e7cd-15ff-4b46-a533-a34a8ad84011.obj",
+                "/uploads/others\\7ea4d50f-548a-4431-bc7b-62ce2f968e70.bat",
+                "/uploads/others\\7af638b6-6706-4e8d-b92b-8a92bbc962e4.txt",
+                "/uploads/others\\11674002-ee4f-4746-b6c7-301543aeed94.txt",
+                "/uploads/others\\55f4124e-6818-4e6e-9bb6-eaff492fe29b.cpp",
+                "/uploads/others\\d618656e-ae15-4544-bd6e-a1ac448e8099.txt",
+                "/uploads/others\\cecfc89a-4f5b-4b11-9d0b-edf6431932ab.rar",
+                "/uploads/others\\169da83e-f797-4d08-84ba-fc615ea89465.pdf",
+                "/uploads/others\\856fc1c9-8a77-4e50-ab71-fe98f73d601e.docx",
+                "/uploads/others\\c870b480-7677-42a6-ab43-8ac836352337.pdf",
+                "/uploads/others\\45709160-16c9-4496-8ef3-97283598f745.png",
+                "/uploads/others\\eba26381-3b97-4ebd-b22c-eb5f71130771.docx",
+                "/uploads/others\\4e889033-ba93-476e-9228-c0ef14e8285c.rar",
+                "/uploads/others\\42ebb4b5-6442-47db-a5e1-5d6b33e06497.docx",
+                "/uploads/others\\fcd9fa86-aa50-4d3a-b1ca-b130542d7c64.pdf",
+                "/uploads/others\\1db29e87-66e7-4f85-b043-c16259e18604.docx",
+                "/uploads/others\\d9edc457-230b-432c-b792-56ab62adec26.pdf",
+                "/uploads/others\\57e00f51-c783-4e45-bcc8-16147ff7bab6.pdf",
+                "/uploads/others\\198af3f6-383e-4676-8317-98aff2aca415.rar",
+                "/uploads/others\\fc888341-4a3b-46db-b44b-7915242a945a.docx",
+                "/uploads/others\\5b59d484-a812-42f5-a81c-76e39f920ebe.pdf",
+                "/uploads/others\\3904ad0a-c062-4d74-a83c-96d8d8f8903f.docx"
+            ]
+        }
+    },
+    {
+        "title": {
+            "ru": "хелоу",
+            "en": "",
+            "zh": "",
+            "ar": ""
+        },
+        "content": {
+            "ru": "В Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\nВ Южно-Уральском государственном университете основные образовательные программы\nвысшего образования (программы бакалавриата, программы специалитета, программы магистратуры,\nпрограммы подготовки научно-педагогических кадров в аспирантуре), программы среднего\nпрофессионального образования реализуются на русском языке, за исключением нижеперечисленных\nпрограмм:\n",
+            "en": "",
+            "zh": "",
+            "ar": ""
+        },
+        "media": {
+            "images": [],
+            "videos": [
+                "/uploads/videos\\d8f12795-fa87-481d-9560-1c8130dae506.mp4"
+            ],
+            "others": []
+        }
+    },
+    {
+        "title": {
+            "ru": "уеруп",
+            "en": "",
+            "zh": "",
+            "ar": ""
+        },
+        "content": {
+            "ru": "async function addFile(type, useExistingInput = false) {\n    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];\n    const allowedVideoTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo'];\n    \n    let input;\n    if (useExistingInput) {\n        input = document.getElementById(`${type}Input`);\n    } else {\n        input = document.createElement('input');\n        input.type = 'file';\n        input.multiple = true;\n        input.accept = type === 'image' ? allowedImageTypes.join(', ') :\n                      type === 'video' ? allowedVideoTypes.join(', ') : '*';\n    }\n\n    input.onchange = async (e) => {\n        const filesToAdd = Array.from(e.target.files);\n        const validFiles = [];\n        const invalidFiles = [];\n\n        // Проверка форматов файлов\n        for(const file of filesToAdd) {\n            let isValid = false;\n            \n            if(type === 'image') {\n                isValid = allowedImageTypes.includes(file.type);\n            }\n            else if(type === 'video') {\n                isValid = allowedVideoTypes.includes(file.type);\n            }\n            else { // other - без проверки\n                isValid = true;\n            }\n\n            if(isValid) {\n                validFiles.push({\n                    name: file.name,\n                    file,\n                    url: URL.createObjectURL(file)\n                });\n            } else {\n                invalidFiles.push(file.name);\n            }\n        }\n\n        // Показываем сообщение об ошибке\n        if(invalidFiles.length > 0) {\n            alert(`Следующие файлы не поддерживаются для типа \"${type}\":\\n${invalidFiles.join('\\n')}`);\n        }\n\n        // Добавляем только валидные файлы\n        if(validFiles.length > 0) {\n            if(type === 'other') {\n                files.other.push(...validFiles);\n                renderFileList();\n            } else {\n                files[type].push(...validFiles);\n                renderSlider(type);\n                document.getElementById(`${type}Controls`).style.display = 'flex';\n            }\n        }\n\n        if(!useExistingInput) input.remove();\n    };\n\n    if(!useExistingInput) input.click();\n}async function addFile(type, useExistingInput = false) {\n    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];\n    const allowedVideoTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo'];\n    \n    let input;\n    if (useExistingInput) {\n        input = document.getElementById(`${type}Input`);\n    } else {\n        input = document.createElement('input');\n        input.type = 'file';\n        input.multiple = true;\n        input.accept = type === 'image' ? allowedImageTypes.join(', ') :\n                      type === 'video' ? allowedVideoTypes.join(', ') : '*';\n    }\n\n    input.onchange = async (e) => {\n        const filesToAdd = Array.from(e.target.files);\n        const validFiles = [];\n        const invalidFiles = [];\n\n        // Проверка форматов файлов\n        for(const file of filesToAdd) {\n            let isValid = false;\n            \n            if(type === 'image') {\n                isValid = allowedImageTypes.includes(file.type);\n            }\n            else if(type === 'video') {\n                isValid = allowedVideoTypes.includes(file.type);\n            }\n            else { // other - без проверки\n                isValid = true;\n            }\n\n            if(isValid) {\n                validFiles.push({\n                    name: file.name,\n                    file,\n                    url: URL.createObjectURL(file)\n                });\n            } else {\n                invalidFiles.push(file.name);\n            }\n        }\n\n        // Показываем сообщение об ошибке\n        if(invalidFiles.length > 0) {\n            alert(`Следующие файлы не поддерживаются для типа \"${type}\":\\n${invalidFiles.join('\\n')}`);\n        }\n\n        // Добавляем только валидные файлы\n        if(validFiles.length > 0) {\n            if(type === 'other') {\n                files.other.push(...validFiles);\n                renderFileList();\n            } else {\n                files[type].push(...validFiles);\n                renderSlider(type);\n                document.getElementById(`${type}Controls`).style.display = 'flex';\n            }\n        }\n\n        if(!useExistingInput) input.remove();\n    };\n\n    if(!useExistingInput) input.click();\n}",
+            "en": "",
+            "zh": "",
+            "ar": ""
+        },
+        "media": {
+            "images": [
+                "/uploads/images\\8abdb0ae-0bd2-45e8-ac5b-b5a4d6dbe50a.jpg",
+                "/uploads/images\\2ca8db36-0a31-4e86-971e-0d91c5be4e5b.jpg",
+                "/uploads/images\\1ebdf6b6-5154-4cd6-ad5a-262009530311.jpg",
+                "/uploads/images\\ba08c5f0-f523-46e0-b416-f625ce99c77d.jpg",
+                "/uploads/images\\a448eaa5-f50e-4335-9f3e-27a48607cead.jpg",
+                "/uploads/images\\3cb89534-9fcc-43ce-8ccb-389399eef729.jpg",
+                "/uploads/images\\9e655677-de82-4d3e-80a0-ee9578545299.jpg",
+                "/uploads/images\\085b89e6-9716-40d1-8452-d55378286fc8.svg"
+            ],
+            "videos": [],
+            "others": [
+                "/uploads/others\\411f578a-3f8c-41fe-8c0a-52ecc4cd6b90.pdf",
+                "/uploads/others\\8812a105-2b7c-4ca4-abd9-d492366880f8.docx",
+                "/uploads/others\\0940c36e-4275-428f-9ef6-67965993cc4e.docx",
+                "/uploads/others\\8aacd2d4-fd57-4104-82bb-a58755838ee3.pdf",
+                "/uploads/others\\49b2e621-e20c-4c28-9147-9e0a4cd626d4.pdf",
+                "/uploads/others\\ae556cfc-cf62-4e0a-955e-6ccad01bce51.pdf",
+                "/uploads/others\\b886becf-ec4d-4559-8827-762c35c4cf0b.png",
+                "/uploads/others\\e066c5d4-5adb-4927-a0a3-02d0567d4ef0.pdf",
+                "/uploads/others\\c162f65e-509e-48af-9ace-25348ccae0ae.png",
+                "/uploads/others\\7dfa1e2b-6d94-4537-90e8-23a21e56d7eb.pdf",
+                "/uploads/others\\7cd46a56-4d9a-4c76-ab1f-066e3cfe8509.pdf",
+                "/uploads/others\\9f260d1f-aae4-4d4b-91fe-3fc841ba6c70.pdf",
+                "/uploads/others\\5a3254e2-a50d-4cc1-a533-d52daa4350d8.ppt"
+            ]
+        }
+    },
+    {
+        "title": {
+            "ru": "Привет",
+            "en": "",
+            "zh": "",
+            "ar": "укпр"
+        },
+        "content": {
+            "ru": "шцугпащцушгап цупам цупам ц",
+            "en": "",
+            "zh": "",
+            "ar": ""
+        },
+        "media": {
+            "images": [],
+            "videos": [],
+            "others": [
+                "/uploads/others\\99bd8d7a-6e4b-476f-881f-bf8323fccd21.pdf",
+                "/uploads/others\\89297fc1-c9ec-46fe-878a-9186f35980af.docx"
+            ]
         }
     }
 ]
